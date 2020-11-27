@@ -7,7 +7,6 @@ Created on 2020/11/24 8:56
 import numpy as np
 from sklearn.utils import check_random_state
 from sklearn.metrics.pairwise import linear_kernel, polynomial_kernel, rbf_kernel
-from sklearn import preprocessing
 from scipy.optimize import minimize
 from scipy import linalg
 
@@ -145,7 +144,7 @@ class MDAS:
         x_tar_ns = x_tar_ns.T
         # precompute all the kernel matrices
         self.dic = self.dic.T
-        self.dic /= np.linalg.norm(self.dic, axis=0)
+        self.dic = _normalize(self.dic)
         K_K = _kernel(self.dic, self.dic, self.kernel)
         K_tar_ns = _kernel(self.dic, x_tar_ns, self.kernel)
         K_sou_ns = [_kernel(self.dic, x, self.kernel) for x in x_sou_ns]
@@ -179,6 +178,7 @@ class MDAS:
         random_state = check_random_state(self.random_state)
         theta = np.ones(K).T / K
         W = [random_state.randn(N_ds, N_ds)] * K
+        A = None
         for _ in range(1):
             # update \mathcal{A}
             H = cal_H(theta, W)

@@ -10,6 +10,8 @@ from sklearn import svm
 from sklearn.metrics import mean_absolute_error
 from da_models import model_process
 from da_models.utils import rmse_score, get_data, train_test_split
+import logging
+import time
 
 
 def base_model():
@@ -36,10 +38,52 @@ rul_ds = [rul_ds1, rul_ds2, rul_ds3, rul_ds4, rul_ds5, rul_ds6, rul_ds7]
 train, test = train_test_split(feature_ns, feature_ds, rul_ds, 6)
 
 # MDAS
+log_name = '{}.log'.format(time.strftime('%Y-%m-%d-%H-%M'))
+log_path = '../logs/' + log_name
+formatter = logging.Formatter('[%(asctime)s]    %(message)s')
+logger = logging.getLogger('MDAS')
+logger.setLevel(logging.DEBUG)
 
-X_train, X_test, y_train, y_test = model_process.mdas_process(train, test)
-regr = base_model()
-regr.fit(X_train, y_train)
-y_pred = np.clip(regr.predict(X_test), 0, 1)
-print('rmse of MDAS:{}'.format(rmse_score(y_test, y_pred)))
-print('mae of MDAS:{}'.format(mean_absolute_error(y_test, y_pred)))
+file = logging.FileHandler(log_path)
+file.setLevel(logging.DEBUG)
+file.setFormatter(formatter)
+
+stream = logging.StreamHandler()
+stream.setLevel(logging.DEBUG)
+stream.setFormatter(formatter)
+
+logger.addHandler(stream)
+logger.addHandler(file)
+
+logger.info('   '.join(['random_state', 'n_components', 'p', 'alpha', 'lamb1', 'lamb2', 'rmse', 'mae']))
+
+seed = 42
+n_components_all = [50, 100, 150, 200, 250, 300, 350, 400, 450, 500]
+p_all = [25, 30, 35, 40, 45, 50, 55, 60, 65, 70]
+alpha_all = [0, 0.1, 0.3, 0.5, 0.7, 0.9, 1]
+lamb1_all = [0.0001, 0.001, 0.01, 0.1, 1, 10]
+lamb2_all = [0.0001, 0.001, 0.01, 0.1, 1, 10]
+
+for i in range(20):
+    print(i)
+    random_state = seed + i
+    for n_components in n_components_all:
+        for p in p_all:
+            for alpha in alpha_all:
+                for lamb1 in lamb1_all:
+                    for lamb2 in lamb2_all:
+                        X_train, X_test, y_train, y_test = \
+                            model_process.mdas_process(train, test,
+                                                       n_components=n_components,
+                                                       p=p,
+                                                       alpha=alpha,
+                                                       lamb1=lamb1,
+                                                       lamb2=lamb2,
+                                                       random_state=random_state)
+                        regr = base_model()
+                        regr.fit(X_train, y_train)
+                        y_pred = np.clip(regr.predict(X_test), 0, 1)
+                        rmse = rmse_score(y_test, y_pred)
+                        mae = mean_absolute_error(y_test, y_pred)
+                        logger.info(
+                            '   '.join([random_state, n_components, p, alpha, lamb1, lamb2, rmse, mae]))
