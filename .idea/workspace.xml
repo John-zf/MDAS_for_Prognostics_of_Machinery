@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="4887bb93-899b-412a-ae36-84dca7c6f451" name="Default Changelist" comment="Initial">
-      <change afterPath="$PROJECT_DIR$/logs/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/da_models/none_mdas.py" beforeDir="false" afterPath="$PROJECT_DIR$/da_models/none_mdas.py" afterDir="false" />
+    <list default="true" id="4887bb93-899b-412a-ae36-84dca7c6f451" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/experiments/Experiment_MDAS.py" beforeDir="false" afterPath="$PROJECT_DIR$/experiments/Experiment_MDAS.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -44,8 +42,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/experiments/Experiment_MDAS.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="342">
-              <caret line="89" lean-forward="true" selection-start-line="89" selection-end-line="89" />
+            <state relative-caret-position="175">
+              <caret line="65" lean-forward="true" selection-start-line="65" selection-end-line="65" />
               <folding>
                 <element signature="e#81#99#0" expanded="true" />
               </folding>
@@ -143,6 +141,11 @@
               <item name="MDAS for Prognostics of Machinery" type="b2602c69:ProjectViewProjectNode" />
               <item name="MDAS for Prognostics of Machinery" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="MDAS for Prognostics of Machinery" type="b2602c69:ProjectViewProjectNode" />
+              <item name="MDAS for Prognostics of Machinery" type="462c0819:PsiDirectoryNode" />
+              <item name="experiments" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
@@ -176,7 +179,26 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.experiment_test">
+  <component name="RunManager" selected="Python.Experiment_MDAS">
+    <configuration name="Experiment_MDAS" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="MDAS for Prognostics of Machinery" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/experiments" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/experiments/Experiment_MDAS.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="true" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration default="true" type="PythonConfigurationType" factoryName="Python">
       <module name="MDAS for Prognostics of Machinery" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -262,28 +284,6 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="mdas" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="MDAS for Prognostics of Machinery" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/da_models" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/da_models/mdas.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="true" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
     <configuration name="test" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="MDAS for Prognostics of Machinery" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -308,11 +308,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.Experiment_MDAS" />
         <item itemvalue="Python.experiment_test" />
         <item itemvalue="Python.distribution_shift" />
         <item itemvalue="Python.distribution_shift2" />
         <item itemvalue="Python.test" />
-        <item itemvalue="Python.mdas" />
       </list>
     </recent_temporary>
   </component>
@@ -349,7 +349,7 @@
       <workItem from="1606398942058" duration="22000" />
       <workItem from="1606399002462" duration="1180000" />
       <workItem from="1606400187708" duration="1304000" />
-      <workItem from="1606438912320" duration="4440000" />
+      <workItem from="1606438912320" duration="10254000" />
     </task>
     <task id="LOCAL-00001" summary="first">
       <created>1606398301793</created>
@@ -372,17 +372,24 @@
       <option name="project" value="LOCAL" />
       <updated>1606400483518</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Tuning MDAS">
+      <created>1606443624508</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1606443624508</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="135932000" />
+    <option name="totallyTimeSpent" value="141746000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1296" height="1000" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.19983819" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.19983819" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -397,7 +404,7 @@
       <window_info anchor="bottom" id="Database Changes" order="9" />
       <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.50242716" side_tool="true" weight="0.4295612" />
       <window_info anchor="bottom" id="Terminal" order="11" weight="0.3290993" />
-      <window_info active="true" anchor="bottom" id="Python Console" order="12" sideWeight="0.4975728" visible="true" weight="0.4295612" />
+      <window_info anchor="bottom" id="Python Console" order="12" sideWeight="0.4975728" visible="true" weight="0.4295612" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -456,7 +463,8 @@
     <MESSAGE value="first" />
     <MESSAGE value="Try" />
     <MESSAGE value="Initial" />
-    <option name="LAST_COMMIT_MESSAGE" value="Initial" />
+    <MESSAGE value="Tuning MDAS" />
+    <option name="LAST_COMMIT_MESSAGE" value="Tuning MDAS" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/da_models/mdas2.py" />
@@ -570,8 +578,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/experiments/Experiment_MDAS.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="342">
-          <caret line="89" lean-forward="true" selection-start-line="89" selection-end-line="89" />
+        <state relative-caret-position="175">
+          <caret line="65" lean-forward="true" selection-start-line="65" selection-end-line="65" />
           <folding>
             <element signature="e#81#99#0" expanded="true" />
           </folding>

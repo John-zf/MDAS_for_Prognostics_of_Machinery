@@ -38,7 +38,7 @@ rul_ds = [rul_ds1, rul_ds2, rul_ds3, rul_ds4, rul_ds5, rul_ds6, rul_ds7]
 train, test = train_test_split(feature_ns, feature_ds, rul_ds, 6)
 
 # MDAS
-log_name = '{}.log'.format(time.strftime('%Y-%m-%d-%H-%M'))
+log_name = 'Tuning-MDAS-{}.log'.format(time.strftime('%Y-%m-%d-%H-%M'))
 log_path = '../logs/' + log_name
 formatter = logging.Formatter('[%(asctime)s]    %(message)s')
 logger = logging.getLogger('MDAS')
@@ -55,23 +55,25 @@ stream.setFormatter(formatter)
 logger.addHandler(stream)
 logger.addHandler(file)
 
-logger.info('   '.join(['random_state', 'n_components', 'p', 'alpha', 'lamb1', 'lamb2', 'rmse', 'mae']))
+logger.info('   '.join(['para_count', 'n_components', 'p', 'alpha', 'lamb1', 'lamb2', 'random_state', 'rmse', 'mae']))
 
 seed = 42
-n_components_all = [50, 100, 150, 200, 250, 300, 350, 400, 450, 500]
-p_all = [25, 30, 35, 40, 45, 50, 55, 60, 65, 70]
+n_components_all = [600, 500, 400, 300, 200, 100]
+p_all = [70, 60, 50, 40, 30]
 alpha_all = [0, 0.1, 0.3, 0.5, 0.7, 0.9, 1]
 lamb1_all = [0.0001, 0.001, 0.01, 0.1, 1, 10]
 lamb2_all = [0.0001, 0.001, 0.01, 0.1, 1, 10]
 
-for i in range(20):
-    print(i)
-    random_state = seed + i
-    for n_components in n_components_all:
-        for p in p_all:
-            for alpha in alpha_all:
-                for lamb1 in lamb1_all:
-                    for lamb2 in lamb2_all:
+count = 0
+for n_components in n_components_all:
+    for p in p_all:
+        for alpha in alpha_all:
+            for lamb1 in lamb1_all:
+                for lamb2 in lamb2_all:
+                    count += 1
+                    for i in range(20):
+                        print(i)
+                        random_state = seed + i
                         X_train, X_test, y_train, y_test = \
                             model_process.mdas_process(train, test,
                                                        n_components=n_components,
@@ -85,5 +87,6 @@ for i in range(20):
                         y_pred = np.clip(regr.predict(X_test), 0, 1)
                         rmse = rmse_score(y_test, y_pred)
                         mae = mean_absolute_error(y_test, y_pred)
-                        logger.info(
-                            '   '.join([random_state, n_components, p, alpha, lamb1, lamb2, rmse, mae]))
+                        logger.info('   '.join([str(count), str(n_components), str(p),
+                                                str(alpha), str(lamb1), str(lamb2), str(random_state),
+                                                str(rmse), str(mae)]))
