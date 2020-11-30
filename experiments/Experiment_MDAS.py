@@ -9,7 +9,8 @@ import numpy as np
 from sklearn import svm
 from sklearn.metrics import mean_absolute_error
 from da_models import model_process
-from da_models.utils import rmse_score, get_data, train_test_split
+from utils.data_utils import get_data, train_test_split
+from utils.metrics import rmse_score
 import logging
 import time
 

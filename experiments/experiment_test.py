@@ -34,14 +34,6 @@ feature_ds = [feature_ds1, feature_ds2, feature_ds3, feature_ds4, feature_ds5,
 rul_ds = [rul_ds1, rul_ds2, rul_ds3, rul_ds4, rul_ds5, rul_ds6, rul_ds7]
 train, test = train_test_split(feature_ns, feature_ds, rul_ds, 6)
 
-# MDAS
-X_train, X_test, y_train, y_test = model_process.mdas_process(train, test)
-regr = base_model()
-regr.fit(X_train, y_train)
-y_pred = np.clip(regr.predict(X_test), 0, 1)
-print('rmse of MDAS:{}'.format(rmse_score(y_test, y_pred)))
-print('mae of MDAS:{}'.format(mean_absolute_error(y_test, y_pred)))
-
 # Baseline model
 X_train, X_test, y_train, y_test = model_process.non_process(train, test)
 regr = base_model()
@@ -57,6 +49,14 @@ regr.fit(X_train, y_train)
 y_pred = np.clip(regr.predict(X_test), 0, 1)
 print('rmse of Sampling:{}'.format(rmse_score(y_test, y_pred)))
 print('mae of Sampling:{}'.format(mean_absolute_error(y_test, y_pred)))
+
+# MDAS
+X_train, X_test, y_train, y_test = model_process.mdas_process(train, test)
+regr = base_model()
+regr.fit(X_train, y_train)
+y_pred = np.clip(regr.predict(X_test), 0, 1)
+print('rmse of MDAS:{}'.format(rmse_score(y_test, y_pred)))
+print('mae of MDAS:{}'.format(mean_absolute_error(y_test, y_pred)))
 
 # PCA
 X_train, X_test, y_train, y_test = model_process.pca_process(train, test)

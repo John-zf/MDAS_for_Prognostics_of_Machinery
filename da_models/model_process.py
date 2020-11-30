@@ -9,7 +9,8 @@ from sklearn.decomposition import PCA
 from da_models.tca import TCA
 from da_models.coral import CORAL
 from da_models.none_mdas import MDAS
-from da_models.utils import normalize, sampling_ds, sampling_ns
+from utils.data_utils import normalize
+from utils.sampling import sampling_ds, sampling_ns, random_sampling_ds
 from sklearn.decomposition import MiniBatchDictionaryLearning
 
 
@@ -28,7 +29,7 @@ def non_process(train, test):
 
 def sampling_process(train, test, random_state=42):
     x_tar_ns, x_sou_ns, x_sou_ds, y_train = train
-    x_sou_ds_new, y_train_new = sampling_ds(x_sou_ds, y_train, random_state=random_state)
+    x_sou_ds_new, y_train_new = random_sampling_ds(x_sou_ds, y_train, random_state=random_state)
     X_train = np.vstack(x_sou_ds_new)
     y_train = np.vstack(y_train_new)[:, 0]
 
