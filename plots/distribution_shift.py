@@ -50,6 +50,7 @@ dens_ns4 = np.exp(kde_ns4.score_samples(x_plot_ns))
 dens_ns5 = np.exp(kde_ns5.score_samples(x_plot_ns))
 dens_ns6 = np.exp(kde_ns6.score_samples(x_plot_ns))
 dens_ns7 = np.exp(kde_ns7.score_samples(x_plot_ns))
+dens_ns = [dens_ns1, dens_ns2, dens_ns3, dens_ns4, dens_ns5, dens_ns6, dens_ns7]
 
 x_plot_ds = np.linspace(-1.5, 4, 50)[:, np.newaxis]
 dens_ds1 = np.exp(kde_ds1.score_samples(x_plot_ds))
@@ -59,31 +60,15 @@ dens_ds4 = np.exp(kde_ds4.score_samples(x_plot_ds))
 dens_ds5 = np.exp(kde_ds5.score_samples(x_plot_ds))
 dens_ds6 = np.exp(kde_ds6.score_samples(x_plot_ds))
 dens_ds7 = np.exp(kde_ds7.score_samples(x_plot_ds))
+dens_ds = [dens_ds1, dens_ds2, dens_ds3, dens_ds4, dens_ds5, dens_ds6, dens_ds7]
+
+cmap = plt.get_cmap('viridis')
+colors = [cmap(x) for x in np.linspace(0, 1, 7)]
 
 plt.figure(figsize=(7.5, 3.5))
-alpha = 0.2
 ax1 = plt.subplot(121)
-ax1.plot(x_plot_ns[:, 0], dens_ns1, color='blue', label='bearing1')
-ax1.fill_between(x_plot_ns[:, 0], dens_ns1, color='blue', alpha=alpha)
-
-ax1.plot(x_plot_ns[:, 0], dens_ns2, color='cyan', label='bearing2')
-ax1.fill_between(x_plot_ns[:, 0], dens_ns2, color='cyan', alpha=alpha)
-
-ax1.plot(x_plot_ns[:, 0], dens_ns3, color='orange', label='bearing3')
-ax1.fill_between(x_plot_ns[:, 0], dens_ns3, color='orange', alpha=alpha)
-
-ax1.plot(x_plot_ns[:, 0], dens_ns4, color='lime', label='bearing4')
-ax1.fill_between(x_plot_ns[:, 0], dens_ns4, color='lime', alpha=alpha)
-
-ax1.plot(x_plot_ns[:, 0], dens_ns5, color='red', label='bearing5')
-ax1.fill_between(x_plot_ns[:, 0], dens_ns5, color='red', alpha=alpha)
-
-ax1.plot(x_plot_ns[:, 0], dens_ns6, color='pink', label='bearing6')
-ax1.fill_between(x_plot_ns[:, 0], dens_ns6, color='pink', alpha=alpha)
-
-ax1.plot(x_plot_ns[:, 0], dens_ns7, color='blueviolet', label='bearing7')
-ax1.fill_between(x_plot_ns[:, 0], dens_ns7, color='blueviolet', alpha=alpha)
-
+for i, dn in enumerate(dens_ns):
+    ax1.plot(x_plot_ns[:, 0], dn, color=colors[i], linewidth=1, label='b'+str(i+1))
 ax1.legend(labelspacing=0, borderaxespad=0.2, fontsize=10)
 ax1.set_ylabel('$P(RMS_{ns})$')
 ax1.set_xlabel('$RMS_{ns}$')
@@ -91,27 +76,8 @@ plt.margins(x=0, y=0)
 ax1.set_title('(a)', y=-0.3)
 
 ax2 = plt.subplot(122)
-ax2.plot(x_plot_ds[:, 0], dens_ds1, color='blue', label='bearing1')
-ax2.fill_between(x_plot_ds[:, 0], dens_ds1, color='blue', alpha=alpha)
-
-ax2.plot(x_plot_ds[:, 0], dens_ds2, color='cyan', label='bearing2')
-ax2.fill_between(x_plot_ds[:, 0], dens_ds2, color='cyan', alpha=alpha)
-
-ax2.plot(x_plot_ds[:, 0], dens_ds3, color='orange', label='bearing3')
-ax2.fill_between(x_plot_ds[:, 0], dens_ds3, color='orange', alpha=alpha)
-
-ax2.plot(x_plot_ds[:, 0], dens_ds4, color='lime', label='bearing4')
-ax2.fill_between(x_plot_ds[:, 0], dens_ds4, color='lime', alpha=alpha)
-
-ax2.plot(x_plot_ds[:, 0], dens_ds5, color='red', label='bearing5')
-ax2.fill_between(x_plot_ds[:, 0], dens_ds5, color='red', alpha=alpha)
-
-ax2.plot(x_plot_ds[:, 0], dens_ds6, color='pink', label='bearing6')
-ax2.fill_between(x_plot_ds[:, 0], dens_ds6, color='pink', alpha=alpha)
-
-ax2.plot(x_plot_ds[:, 0], dens_ds7, color='blueviolet', label='bearing7')
-ax2.fill_between(x_plot_ds[:, 0], dens_ds7, color='blueviolet', alpha=alpha)
-
+for i, dd in enumerate(dens_ds):
+    ax2.plot(x_plot_ds[:, 0], dd, color=colors[i], linewidth=1, label='b'+str(i+1))
 ax2.legend(labelspacing=0, borderaxespad=0.2, fontsize=10)
 ax2.set_ylabel('$P(RMS_{ds})$')
 ax2.set_xlabel('$P(RMS_{ds})$')
@@ -120,4 +86,5 @@ ax2.set_title('(b)', y=-0.3)
 
 plt.tight_layout()
 plt.savefig('distribution_shift.png', dpi=800, pad_inches=0)
+plt.savefig('distribution_shift.pdf', dpi=800, pad_inches=0)
 plt.show()

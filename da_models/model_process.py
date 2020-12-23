@@ -10,7 +10,7 @@ from da_models.tca import TCA
 from da_models.coral import CORAL
 from da_models.none_mdas import MDAS
 from utils.data_utils import normalize
-from utils.sampling import sampling_ds, sampling_ns, random_sampling_ds
+from utils.sampling import random_sampling_ds, random_sampling_ns
 from sklearn.decomposition import MiniBatchDictionaryLearning
 
 
@@ -87,16 +87,37 @@ def pca_process(train, test):
 
 
 def mdas_process(train, test,
-                 n_components=500,
-                 p=50,
+                 p=70,
                  alpha=0.5,
                  lamb1=0.1,
                  lamb2=0.1,
                  random_state=42):
     x_tar_ns, x_sou_ns, x_sou_ds, y_train = train
     x_tar_ds, y_test = test
-    x_sou_ds, y_train = sampling_ds(x_sou_ds, y_train, random_state)
-    x_sou_ns = sampling_ns(x_tar_ns, x_sou_ns, random_state)
+    x_sou_ds, y_train = random_sampling_ds(x_sou_ds, y_train, random_state)
+    x_sou_ns = random_sampling_ns(x_tar_ns, x_sou_ns, random_state)
+    y_train = np.vstack(y_train)[:, 0]
+
+    model = MDAS(p=p, alpha=alpha, lamb1=lamb1, lamb2=lamb2)
+    x_sou_ds = model.fit(x_tar_ns, x_sou_ns, x_sou_ds)
+    X_test = model.transform(x_tar_ds)
+    X_train = np.vstack(x_sou_ds)
+
+    X_train, X_test = normalize(X_train, X_test)
+    return X_train, X_test, y_train, y_test[:, 0]
+
+
+def none_mdas_process(train, test,
+                      n_components=500,
+                      p=50,
+                      alpha=0.5,
+                      lamb1=0.1,
+                      lamb2=0.1,
+                      random_state=42):
+    x_tar_ns, x_sou_ns, x_sou_ds, y_train = train
+    x_tar_ds, y_test = test
+    x_sou_ds, y_train = random_sampling_ds(x_sou_ds, y_train, random_state)
+    x_sou_ns = random_sampling_ns(x_tar_ns, x_sou_ns, random_state)
     y_train = np.vstack(y_train)[:, 0]
 
     # dictionary learning

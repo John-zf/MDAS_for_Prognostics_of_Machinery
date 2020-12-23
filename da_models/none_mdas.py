@@ -14,11 +14,9 @@ from scipy import linalg
 def _frob_2(matrix):
     """
     Calculate the square frobenius norm of a matrix.
-
     Parameters
     ----------
     matrix : array-like (numpy.array).
-
     Returns
     -------
     frob_norm_2 : float
@@ -33,11 +31,9 @@ def _l21_norm(matrix):
     """
     Calculate the l2,1 norm of a matrix.
     See : 'Nie et. al. Efficient and Robust Feature Selection via Joint l2,1-Norms Minimization'
-
     Parameters
     ----------
     matrix : array-like (numpy.array).
-
     Returns
     -------
     l21_norm : float
@@ -51,13 +47,11 @@ def _l21_norm(matrix):
 def _kernel(x1, x2, kernel='linear'):
     """
     Calculate the kernel matrix of two datasets.
-
     Parameters
     ----------
     x1 : array-like (numpy.array).
     x2 : array-like (numpy.array).
     kernel : string (linear, rbf, poly)
-
     Returns
     -------
         Kernel matrix of two datasets
@@ -88,22 +82,16 @@ class MDAS:
         ----------
         p : int
             Number of subspace.
-
         alpha : float, optional (default=0.5)
             Ratio to control the intra and inter consistency.
-
         lamb1 : float, optional (default=0.01)
             Regularization paramter.
-
         lamb2 : float, optional (default=0.01)
             Regularization paramter.
-
         p : int
             Number of subspace.
-
         dic : num_dic * d
             Dictionary of all the instances.
-
         random_state : int, optional (default=42)
         """
         self.p = p
@@ -121,18 +109,14 @@ class MDAS:
     def fit(self, x_tar_ns, x_sou_ns, x_sou_ds):
         """
         Fit the MDAS model and return the transformed features.
-
         Parameters
         ----------
         x_tar_ns : ns * d
             Features of the target domain in the normal state.
-
         x_sou_ns : num_sd * ns * d
             A list of features of the source domain in the normal state.
-
         x_sou_ds : num_sd * ds * d
             A list of features of the source domain in the degenerated state.
-
         Returns
         -------
         k_tar_ds_new : Transformed features of the target domain in the degenerated state.
@@ -174,6 +158,12 @@ class MDAS:
         def cal_H(theta_, W_):
             return self.alpha * cal_H1(theta_) + (1 - self.alpha) * cal_H2(W_)
 
+        def cal_final_obj(_A, _theta, _W):
+            _H = cal_H(_theta, _W)
+            obj = np.trace(_A.T @ _H @ _A) + self.lamb1 * np.linalg.norm(_theta, ord=2) ** 2 + \
+                  self.lamb1 * _l21_norm(np.vstack(_W))
+            return obj
+
         # initialize all the parameters
         random_state = check_random_state(self.random_state)
         theta = np.ones(K).T / K
@@ -210,9 +200,7 @@ class MDAS:
                 C = K_sou_ds[k].T @ A @ A.T @ C_sub
                 W[k] = np.linalg.inv(B + self.lamb2 * U) @ C
 
-            H = cal_H(theta, W)
-            final_obj = np.trace(A.T @ H @ A) + self.lamb1 * np.linalg.norm(theta, ord=2) ** 2 + \
-                self.lamb1 * _l21_norm(np.vstack(W))
+            final_obj = cal_final_obj(A, theta, W)
             print(final_obj)
             self.objs.append(final_obj)
 

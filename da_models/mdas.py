@@ -47,8 +47,8 @@ def _l21_norm(matrix):
     return l21_norm
 
 
-def _centering(matrix):
-    # matrix = matrix - np.mean(matrix)
+def _normalize(matrix):
+    # matrix /= np.linalg.norm(matrix, axis=0)
     return matrix
 
 
@@ -106,15 +106,15 @@ class MDAS:
         """
 
         # preprocessing all the features
-        x_sou_ns = [_centering(x).T for x in x_sou_ns]
-        x_sou_ds = [_centering(x).T for x in x_sou_ds]
-        x_tar_ns = _centering(x_tar_ns).T
+        x_sou_ns = [_normalize(x.T) for x in x_sou_ns]
+        x_sou_ds = [_normalize(x.T) for x in x_sou_ds]
+        x_tar_ns = _normalize(x_tar_ns.T)
 
         K = len(x_sou_ds)  # num of source domains
         d, N_ds = x_sou_ds[0].shape  # num of features and ds instances
         if self.p is None:
             self.p = d
-        eps = 0.0000000001
+        eps = np.spacing(0)
 
         def cal_H1(theta_):
             P_sub = [x_tar_ns - x for x in x_sou_ns]
@@ -134,12 +134,19 @@ class MDAS:
         def cal_H(theta_, W_):
             return self.alpha * cal_H1(theta_) + (1 - self.alpha) * cal_H2(W_)
 
+        def cal_final_obj(_A, _theta, _W):
+            _H = cal_H(_theta, _W)
+            obj = np.trace(_A.T @ _H @ _A) + self.lamb1 * np.linalg.norm(_theta, ord=2) ** 2 + \
+                  self.lamb1 * _l21_norm(np.vstack(_W))
+            return obj
+
         # initialize all the parameters
         random_state = check_random_state(self.random_state)
         theta = np.ones(K).T / K
-        W = [np.eye(N_ds, N_ds)] * K
-
-        for _ in range(5):
+        # W = [np.eye(N_ds, N_ds)] * K
+        W = [random_state.randn(N_ds, N_ds)] * K
+        A = None
+        for _ in range(1):
             # update \mathcal{A}
             H = cal_H(theta, W)
             # calculate the eigenvectors and eigenvalues of H
@@ -169,18 +176,16 @@ class MDAS:
                 C = x_sou_ds[k].T @ A @ A.T @ C_sub
                 W[k] = np.linalg.inv(B + self.lamb2 * U) @ C
 
-            H = cal_H(theta, W)
-            final_obj = np.trace(A.T @ H @ A) + self.lamb1 * np.linalg.norm(theta, ord=2) ** 2 + \
-                self.lamb1 * _l21_norm(np.vstack(W))
+            final_obj = cal_final_obj(A, theta, W)
             print(final_obj)
             self.objs.append(final_obj)
 
         self.A = A
         self.W = W
-        x_tar_ds_new = [(A.T @ x @ y).T for (x, y) in zip(x_sou_ds, W)]
+        x_tar_ds_new = [_normalize(A.T @ x @ y).T for (x, y) in zip(x_sou_ds, W)]
         return x_tar_ds_new
 
     def transform(self, x_new):
         x_new = x_new.T
-        x_new_t = self.A.T @ x_new
+        x_new_t = _normalize(self.A.T @ x_new)
         return x_new_t.T
