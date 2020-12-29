@@ -44,6 +44,11 @@ def tca_process(train, test, p=50):
     x_tar_ns, x_sou_ns, x_sou_ds, y_train = train
     y_train = np.vstack(y_train)[:, 0]
     x_tar_ds, y_test = test
+
+    x_sou_ds, y_train = random_sampling_ds(x_sou_ds, y_train, 42)
+    x_sou_ns = random_sampling_ns(x_tar_ns, x_sou_ns, 42)
+
+    y_train = np.vstack(y_train)[:, 0]
     x_sou_ns_mat = np.vstack(x_sou_ns)
     x_sou_ds_mat = np.vstack(x_sou_ds)
 
@@ -109,7 +114,7 @@ def mdas_process(train, test,
 
 def none_mdas_process(train, test,
                       n_components=500,
-                      p=50,
+                      p=70,
                       alpha=0.5,
                       lamb1=0.1,
                       lamb2=0.1,

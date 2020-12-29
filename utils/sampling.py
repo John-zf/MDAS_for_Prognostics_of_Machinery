@@ -86,17 +86,20 @@ def random_sampling_ds(x_sou_ds, y_train, random_state=30):
         indices = np.array(range(x.shape[0]))
         if len(x) == num_samples:
             x_sou_ds_new.append(x)
-            y_train_new.append(y)
+            # y_train_new.append(y)
+            y_train_new.append(np.linspace(1, 0, len(indices))[:, np.newaxis])
         elif len(x) > num_samples:
             # under sampling
             indices = random_state.choice(indices, num_samples)
             indices = np.sort(indices)
             x_sou_ds_new.append(_safe_indexing(x, indices))
-            y_train_new.append(_safe_indexing(y, indices))
+            # y_train_new.append(_safe_indexing(y, indices))
+            y_train_new.append(np.linspace(1, 0, len(indices))[:, np.newaxis])
         elif len(x) < num_samples:
             # over sampling
             indices = random_state.randint(0, len(indices), num_samples)
             indices = np.sort(indices)
             x_sou_ds_new.append(_safe_indexing(x, indices))
-            y_train_new.append(_safe_indexing(y, indices))
+            # y_train_new.append(_safe_indexing(y, indices))
+            y_train_new.append(np.linspace(1, 0, len(indices))[:, np.newaxis])
     return x_sou_ds_new, y_train_new
